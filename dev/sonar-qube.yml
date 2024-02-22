@@ -3,7 +3,7 @@ services:
   database-postgres:
     image: postgres
     hostname: sonar-qube-database
-    port:
+    ports:
       - 45432:5432
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
