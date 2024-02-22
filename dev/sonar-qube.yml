@@ -2,7 +2,7 @@ version: '3.4'
 services:
   database-postgres:
     image: postgres
-    user: "${UID}:${GID}"
+    user: "999:999"
     networks:
       internal:
     environment:
