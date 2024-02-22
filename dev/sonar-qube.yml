@@ -12,6 +12,8 @@ services:
     image: sonarqube
     depends_on:
       - database-postgres
+    networks:
+      - traefik-public:
     environment:
       SONAR_JDBC_URL: $SONAR_JDBC_URL
       SONAR_JDBC_USERNAME: $POSTGRES_USER
