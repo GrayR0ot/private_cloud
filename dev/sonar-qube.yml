@@ -12,7 +12,7 @@ services:
     volumes:
       - database-postgres:/var/lib/postgresql/data
   sonar-qube:
-    image: sonarqube:lts-community
+    image: sonarqube:10-community
     user: "1001:0"
     depends_on:
       - database-postgres
