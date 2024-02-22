@@ -8,6 +8,37 @@ services:
       POSTGRES_DB: $POSTGRES_USER
     volumes:
       - database-postgres:/var/lib/postgresql/data
+  sonar-qube:
+    image: sonarqube
+    environment:
+      SONAR_JDBC_URL: $SONAR_JDBC_URL
+      SONAR_JDBC_USERNAME: $POSTGRES_USER
+      SONAR_JDBC_PASSWORD: $POSTGRES_USER
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-logs:/opt/sonarqube/logs
+      - sonarqube-extensions:/opt/sonarqube/extensions
+    logging:
+      driver: json-file
+    deploy:
+      replicas: 1
+      labels:
+        traefik.http.routers.grayroot-sonar-qube-http.tls.certresolver: cf
+        traefik.http.services.grayroot-sonar-qube-http.loadbalancer.server.port: '9000'
+        traefik.http.routers.grayroot-sonar-qube-http.tls: 'true'
+        traefik.http.routers.grayroot-sonar-qube-http.rule: Host(`$DOMAIN`)
+        traefik.http.routers.grayroot-sonar-qube-http.entrypoints: https
+        traefik.constraint-label: traefik-public
+        traefik.docker.network: traefik-public
+        traefik.enable: 'true'
+    
 
 volumes:
   database-postgres:
+  sonarqube-data:
+  sonarqube-logs:
+  sonarqube-extensions:
+
+networks:
+  traefik-public:
+    external: true
