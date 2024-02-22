@@ -2,6 +2,7 @@ version: '3.4'
 services:
   database-postgres:
     image: postgres
+    user: "1001:1001"
     networks:
       internal:
     environment:
@@ -12,7 +13,7 @@ services:
       - database-postgres:/var/lib/postgresql/data
   sonar-qube:
     image: sonarqube
-    user: "${UID}:${GID}"
+    user: "1001:1001"
     depends_on:
       - database-postgres
     networks:
